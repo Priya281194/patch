@@ -166,21 +166,11 @@ function image_get_info($filepath, $toolkit = FALSE) {
  * @see image_resize()
  * @see image_crop()
  */
- /**
-   * Hack Starts here
-   * Hacked Info - replaced line 169 to 172  with 169 to 183
-   * Why - while adding gallery there will be a list of images.it requires pagination
-  */
-function image_scale_and_crop(stdClass $image, $width, $height, $anchor = 'center-top') {
-   $scale = max($width / $image->info['width'], $height / $image->info['height']);
-  // $x = ($image->info['width'] * $scale - $width) / 2;
-  // $y = ($image->info['height'] * $scale - $height) / 2;
-  list($x, $y) = explode('-', $anchor);
-  $x = image_filter_keyword($x, $image->info['width'] * $scale, $width);
-  $y = image_filter_keyword($y, $image->info['height'] * $scale, $height);
-  /**
-   * Hack ends here
-  */
+function image_scale_and_crop(stdClass $image, $width, $height) {
+  $scale = max($width / $image->info['width'], $height / $image->info['height']);
+  $x = ($image->info['width'] * $scale - $width) / 2;
+  $y = ($image->info['height'] * $scale - $height) / 2;
+
   if (image_resize($image, $image->info['width'] * $scale, $image->info['height'] * $scale)) {
     return image_crop($image, $x, $y, $width, $height);
   }
